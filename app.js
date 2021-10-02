@@ -7,7 +7,6 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const boolParser = require('express-query-boolean');
 
-const transactionsRouter = require('./routes/api/transaction');
 const apiRouter = require('./routes/api/');
 
 const {
@@ -29,7 +28,6 @@ app.use(boolParser());
 app.use('/api/v1/', rateLimit(limiterAPI));
 
 app.use('/api/v1/', apiRouter);
-app.use('/api/v1/transaction', transactionsRouter);
 
 app.use((_req, res) => {
   res
