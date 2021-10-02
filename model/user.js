@@ -44,7 +44,7 @@ const userSchema = new Schema(
       default: uuid(),
     },
     balance: { type: Number, default: 0 },
-    frend: { type: String, default: null },
+    friend: { type: String, default: null },
     googleId: { type: String, default: null },
     googleEmail: {
       type: String,
