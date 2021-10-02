@@ -25,7 +25,15 @@ const updateTokenVerify = async (id, verify, verifyToken) => {
   return await User.updateOne({ _id: id }, { verify, verifyToken });
 };
 const updateAvatar = async (id, avatar, idCloudAvatar = null) => {
-  const result = await User.updateOne({ _id: id }, { avatarURL: avatar, idCloudAvatar });
+  const result = await User.updateOne(
+    { _id: id },
+    { avatarURL: avatar, idCloudAvatar },
+  );
+  return result;
+};
+
+const createBalance = async (id, balance) => {
+  const result = await User.updateOne({ _id: id }, { balance });
   return result;
 };
 
@@ -47,4 +55,5 @@ module.exports = {
   updateAvatar,
   findByVerifyToken,
   updateTokenVerify,
+  createBalance,
 };
