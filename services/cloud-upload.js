@@ -22,6 +22,7 @@ class UploadService {
         250,
         Jimp.HORIZONTAL_ALIGN_CENTER | Jimp.VERTICAL_ALIGN_MIDDLE,
       )
+      .circle({ radius: 100 })
       .writeAsync(pathFile);
   }
 
