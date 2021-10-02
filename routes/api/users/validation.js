@@ -3,7 +3,6 @@ const Joi = require('joi');
 const {
   HttpCode: { BAD_REQUEST },
   validate,
-  Packages,
 } = require('../../../helpers');
 
 const schemaPаramsrUserSignup = Joi.object({
@@ -25,8 +24,8 @@ const schemaPаramsrUserLogin = Joi.object({
   subscription: Joi.string().optional(),
 });
 
-const schemaSubscriptionUser = Joi.object({
-  subscription: Joi.string().pattern(/^[a-zA-Z' ']{3,30}$/),
+const schemaBalanceUser = Joi.object({
+  balance: Joi.number(),
 });
 
 const shemaVerifyEmail = Joi.object({
@@ -54,9 +53,9 @@ module.exports = {
       message: 'Missing required name field',
     });
   },
-  validationSubscriptionUser: (req, res, next) => {
-    if (Object.values(Packages).includes(req.body.subscription)) {
-      return validate(schemaSubscriptionUser, req.body, next);
+  validationBalanceUser: (req, res, next) => {
+    if (!isNaN(req.body.balance)) {
+      return validate(schemaBalanceUser, req.body, next);
     }
     return res.status(BAD_REQUEST).json({
       status: 'error',
