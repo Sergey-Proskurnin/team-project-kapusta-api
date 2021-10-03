@@ -7,7 +7,7 @@ const {
 
 const joiTransactionSchema = Joi.object({
   type: Joi.string().required(),
-  data: Joi.date().required(),
+  date: Joi.date().required(),
   category: Joi.string().required(),
   subCategory: Joi.string().required(),
   sum: Joi.number().required(),
@@ -20,7 +20,7 @@ module.exports = {
   validationTransactionSchema: (req, res, next) => {
     if (
       'type' in req.body &&
-      'data' in req.body &&
+      'date' in req.body &&
       'category' in req.body &&
       'sum' in req.body &&
       'subCategory' in req.body

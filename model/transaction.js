@@ -7,7 +7,7 @@ const transactionSchema = Schema(
       enum: ['income', 'expense'],
       required: true,
     },
-    data: {
+    date: {
       type: Date,
       default: Date.now(),
       required: true,
