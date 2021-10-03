@@ -10,15 +10,19 @@ const transactionSchema = Schema(
     data: {
       type: Date,
       default: Date.now(),
+      required: true,
     },
     category: {
       type: String,
+      required: true,
     },
     subCategory: {
       type: String,
+      required: true,
     },
     sum: {
       type: Number,
+      required: true,
     },
     day: {
       type: Number,
