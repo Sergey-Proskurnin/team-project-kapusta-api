@@ -2,12 +2,20 @@ const { Transaction } = require('../../model/transaction');
 const User = require('../../repositories/users');
 
 const {
-  HttpCode: { CREATED },
+  HttpCode: { CREATED, NOT_FOUND },
 } = require('../../helpers');
 
-const createTransaction = async (req, res, next) => {
+const updateTransaction = async (req, res, next) => {
   try {
-    const resultTransaction = await Transaction.create(req.body);
+    const { id } = req.params;
+    const result = await Transaction.findByIdAndUpdate({ _id: id }, req.body, {
+      new: true,
+    });
+    if (!result) {
+      return res.status(NOT_FOUND).json({
+        message: 'Not found',
+      });
+    }
     const userId = req.user._id;
     const userBalance = req.body.balance;
     const resultBalance = await User.createBalance(userId, userBalance);
@@ -18,12 +26,12 @@ const createTransaction = async (req, res, next) => {
     }
     const { balance } = resultBalance;
     res.status(CREATED).json({
-      resultTransaction,
+      result,
       balance,
     });
   } catch (error) {
-    next(error);
+    next();
   }
 };
 
-module.exports = createTransaction;
+module.exports = updateTransaction;

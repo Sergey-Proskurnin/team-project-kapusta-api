@@ -14,18 +14,19 @@ const joiTransactionSchema = Joi.object({
   day: Joi.number().integer().min(1).max(31),
   month: Joi.number().integer().min(1).max(12),
   year: Joi.number().integer().min(2000),
+  /* balance: Joi.number(), */
 });
 
 module.exports = {
   validationTransactionSchema: (req, res, next) => {
     if (
-      'type' in req.body &&
-      'date' in req.body &&
-      'category' in req.body &&
-      'sum' in req.body &&
-      'subCategory' in req.body
+      'type' in req.body.transaction &&
+      'date' in req.body.transaction &&
+      'category' in req.body.transaction &&
+      'sum' in req.body.transaction &&
+      'subCategory' in req.body.transaction
     ) {
-      return validate(joiTransactionSchema, req.body, next);
+      return validate(joiTransactionSchema, req.body.transaction, next);
     }
     return res.status(BAD_REQUEST).json({
       status: 'error',

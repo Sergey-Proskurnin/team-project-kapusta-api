@@ -9,11 +9,15 @@ const updateBalance = async (req, res, next) => {
   try {
     const userId = req.user.id;
     const userBalance = req.body.balance;
-    const balance = await Users.createBalance(userId, userBalance);
-    if (balance) {
+    const result = await Users.createBalance(userId, userBalance);
+    if (result) {
       return res
         .status(OK)
-        .json({ status: 'success', code: OK, data: { balance: userBalance } });
+        .json({
+          status: 'success',
+          code: OK,
+          data: { balance: result.balance },
+        });
     }
     return res
       .status(NOT_FOUND)
