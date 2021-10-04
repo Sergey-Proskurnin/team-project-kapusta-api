@@ -9,5 +9,6 @@ router.get('/', guard, ctrl.getAllTransactions);
 router.get('/:id', guard, ctrl.getTransactionById);
 router.post('/', guard, validationTransactionSchema, ctrl.createTransaction);
 router.delete('/:id', guard, ctrl.removeTransaction);
+router.put('/:id', guard, validationTransactionSchema, ctrl.updateTransaction);
 
 module.exports = router;

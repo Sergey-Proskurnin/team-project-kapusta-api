@@ -33,7 +33,11 @@ const updateAvatar = async (id, avatar, idCloudAvatar = null) => {
 };
 
 const createBalance = async (id, balance) => {
-  const result = await User.updateOne({ _id: id }, { balance });
+  const result = await User.findOneAndUpdate(
+    { _id: id },
+    { balance },
+    { returnDocument: 'after' },
+  );
   return result;
 };
 
