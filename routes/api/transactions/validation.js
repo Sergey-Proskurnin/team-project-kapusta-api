@@ -14,7 +14,6 @@ const joiTransactionSchema = Joi.object({
   day: Joi.number().integer().min(1).max(31),
   month: Joi.number().integer().min(1).max(12),
   year: Joi.number().integer().min(2000),
-  /* balance: Joi.number(), */
 });
 
 module.exports = {

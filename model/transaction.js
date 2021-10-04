@@ -42,9 +42,6 @@ const transactionSchema = Schema(
       type: Schema.Types.ObjectId,
       ref: 'user',
     },
-    /* balance: {
-      type: Number,
-    }, */
   },
   { versionKey: false, timestamps: true },
 );
