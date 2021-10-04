@@ -2,12 +2,12 @@ const { Transaction } = require('../../model/transaction');
 const User = require('../../repositories/users');
 
 const {
-  HttpCode: { CREATED },
+  HttpCode: { CREATED, NOT_FOUND },
 } = require('../../helpers');
 
 const createTransaction = async (req, res, next) => {
   try {
-    const resultTransaction = await Transaction.create(req.body);
+    const resultTransaction = await Transaction.create(req.body.transaction);
     const userId = req.user._id;
     const userBalance = req.body.balance;
     const resultBalance = await User.createBalance(userId, userBalance);

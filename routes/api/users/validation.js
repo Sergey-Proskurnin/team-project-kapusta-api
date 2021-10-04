@@ -54,8 +54,8 @@ module.exports = {
     });
   },
   validationBalanceUser: (req, res, next) => {
-    if (!isNaN(req.body.balance)) {
-      return validate(schemaBalanceUser, req.body.balnce, next);
+    if (!isNaN(req.bodyv)) {
+      return validate(schemaBalanceUser, req.body, next);
     }
     return res.status(BAD_REQUEST).json({
       status: 'error',

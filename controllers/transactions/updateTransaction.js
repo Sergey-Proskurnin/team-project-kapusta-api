@@ -8,9 +8,13 @@ const {
 const updateTransaction = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const result = await Transaction.findByIdAndUpdate({ _id: id }, req.body, {
-      new: true,
-    });
+    const result = await Transaction.findByIdAndUpdate(
+      { _id: id },
+      req.body.transaction,
+      {
+        new: true,
+      },
+    );
     if (!result) {
       return res.status(NOT_FOUND).json({
         message: 'Not found',
