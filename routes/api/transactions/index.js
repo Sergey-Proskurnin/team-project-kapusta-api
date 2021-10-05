@@ -5,7 +5,9 @@ const guard = require('../../../helpers/guard');
 
 const { transactions: ctrl } = require('../../../controllers');
 
-router.get('/', guard, ctrl.getAllTransactionsByYear);
+router.get('/day', guard, ctrl.getAllTransactionsByDay);
+router.get('/month', guard, ctrl.getAllTransactionsByMonth);
+router.get('/year', guard, ctrl.getAllTransactionsByYear);
 router.get('/:id', guard, ctrl.getTransactionById);
 router.post('/', guard, validationTransactionSchema, ctrl.createTransaction);
 router.delete('/:id', guard, ctrl.removeTransaction);

@@ -5,7 +5,13 @@ const {
 
 const getAllTransactionsByDay = async (req, res, next) => {
   try {
-    const result = await Transaction.find({ owner: req.user._id });
+    const { day, month, year } = req.body;
+    const result = await Transaction.find({
+      owner: req.user._id,
+      day,
+      month,
+      year,
+    });
     res.status(OK).json({
       result,
     });
