@@ -7,7 +7,8 @@ const {
 
 const createTransaction = async (req, res, next) => {
   try {
-    const resultTransaction = await Transaction.create(req.body.transaction);
+    const newTransaction = { ...req.body.transaction, owner: req.user._id };
+    const resultTransaction = await Transaction.create(newTransaction);
     const userId = req.user._id;
     const userBalance = req.body.balance;
     const resultBalance = await User.createBalance(userId, userBalance);

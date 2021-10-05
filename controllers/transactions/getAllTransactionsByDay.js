@@ -3,9 +3,9 @@ const {
   HttpCode: { OK },
 } = require('../../helpers');
 
-const getAllTransactions = async (req, res, next) => {
+const getAllTransactionsByDay = async (req, res, next) => {
   try {
-    const result = await Transaction.find({});
+    const result = await Transaction.find({ owner: req.user._id });
     res.status(OK).json({
       result,
     });
@@ -14,4 +14,4 @@ const getAllTransactions = async (req, res, next) => {
   }
 };
 
-module.exports = getAllTransactions;
+module.exports = getAllTransactionsByDay;
