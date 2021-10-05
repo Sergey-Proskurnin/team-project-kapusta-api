@@ -5,7 +5,8 @@ const {
 
 const getAllTransactionsByYear = async (req, res, next) => {
   try {
-    const result = await Transaction.find({ owner: req.user._id });
+    const { year } = req.body;
+    const result = await Transaction.find({ owner: req.user._id, year });
     res.status(OK).json({
       result,
     });
