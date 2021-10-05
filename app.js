@@ -6,6 +6,8 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const boolParser = require('express-query-boolean');
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
 
 const apiRouter = require('./routes/api/');
 
@@ -28,6 +30,12 @@ app.use(boolParser());
 app.use('/api/v1/', rateLimit(limiterAPI));
 
 app.use('/api/v1/', apiRouter);
+
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument)
+);
 
 app.use((_req, res) => {
   res

@@ -1,0 +1,22 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "version": "2.0.2",
+      "title": "kapusta-api",
+      "description": "Showing off kapusta-api",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "servers": [{ "url": "https://kapusta-api.herokuapp.com" }],
+    "tags": [
+      {
+        "name": "Auth",
+        "description": "Authorization endpoints"
+      }
+    ]
+    
+  }
