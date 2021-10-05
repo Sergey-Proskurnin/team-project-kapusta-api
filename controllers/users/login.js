@@ -25,7 +25,7 @@ const login = async (req, res, next) => {
         message: 'User has not verified his email',
       });
     }
-    const { name, email, subscription } = user;
+    const { name, email} = user;
     const id = user.id;
     const payloload = { id, test: 'Hellow mamkin hacker' };
     const token = jwt.sign(payloload, SECRET_KEY, { expiresIn: '4h' });
@@ -33,7 +33,7 @@ const login = async (req, res, next) => {
     return res.status(OK).json({
       status: 'success',
       code: OK,
-      data: { token, user: { name, email, subscription } },
+      data: { token, user: { name, email } },
     });
   } catch (error) {
     next(error);
