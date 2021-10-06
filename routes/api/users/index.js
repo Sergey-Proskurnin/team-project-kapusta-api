@@ -19,5 +19,7 @@ router.get('/current', guard, ctrl.current);
 router.get('/verify/:verificationToken', ctrl.verify);
 router.post('/verify', validationVerificationEmail, ctrl.repeatEmailVerify);
 router.patch('/balance', guard, validationBalanceUser, ctrl.balance);
+router.get('/google', ctrl.googleAuth);
+router.get('/google-redirect', ctrl.googleRedirect);
 
 module.exports = router;

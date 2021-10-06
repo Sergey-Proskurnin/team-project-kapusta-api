@@ -18,7 +18,7 @@ const create = async body => {
 };
 
 const updateToken = async (id, token) => {
-  return await User.updateOne({ _id: id }, { token });
+  return await User.findOneAndUpdate({ _id: id }, { token }, { returnDocument: 'after' });
 };
 
 const updateTokenVerify = async (id, verify, verifyToken) => {
@@ -41,10 +41,11 @@ const createBalance = async (id, balance) => {
   return result;
 };
 
-const updateSubscriptionUser = async (userId, body) => {
+const updateGoogleUser = async (userId, body) => {
   const result = await User.findOneAndUpdate(
     { _id: userId },
-    { subscription: body },
+    { avatarURL: body, verify: true, verifyToken: null },
+
     { returnDocument: 'after', runValidators: true },
   );
   return result;
@@ -55,7 +56,7 @@ module.exports = {
   findByEmail,
   create,
   updateToken,
-  updateSubscriptionUser,
+  updateGoogleUser,
   updateAvatar,
   findByVerifyToken,
   updateTokenVerify,
