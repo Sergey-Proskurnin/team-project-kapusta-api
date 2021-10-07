@@ -6,7 +6,19 @@ const { createToken } = require('../../helpers');
 
 const Users = require('../../repositories/users');
 
-const HOST = process.env.LINK_HOST_DEVELOPMENT;
+let HOST
+
+switch (process.env.NODE_ENV) {
+  case 'development':
+    HOST = process.env.LINK_HOST_DEVELOPMENT;
+    break;
+  case 'production':
+    HOST = 'https://kapusta-api.herokuapp.com';
+    break;
+  default:
+    HOST = process.env.LINK_HOST_DEFAULT;
+    break;
+}
 
 const googleAuth = async (req, res, next) => {
   try {
