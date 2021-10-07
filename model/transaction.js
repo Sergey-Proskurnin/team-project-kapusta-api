@@ -33,6 +33,9 @@ const transactionSchema = Schema(
     },
     month: {
       type: Number,
+      get: v => v.padStart(2, '0'),
+      set: v => v.padStart(2, '0'),
+      alias: 'i',
       min: 1,
       max: 12,
     },
