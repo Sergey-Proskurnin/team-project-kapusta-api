@@ -11,7 +11,6 @@ const HttpCode = {
   INTERNAL_SERVER_ERROR: 500,
 };
 
-
 const limiterAPI = {
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 1000,

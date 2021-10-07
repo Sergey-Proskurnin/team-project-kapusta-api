@@ -1,9 +1,7 @@
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
-const SECRET_KEY = process.env.SECRET_KEY;
 const Users = require('../../repositories/users');
 const {
   HttpCode: { OK, UNAUTHORIZED },
+  createToken,
 } = require('../../helpers');
 
 const login = async (req, res, next) => {
@@ -27,8 +25,7 @@ const login = async (req, res, next) => {
     }
     const { name, email } = user;
     const id = user.id;
-    const payloload = { id, test: 'Hellow mamkin hacker' };
-    const token = jwt.sign(payloload, SECRET_KEY, { expiresIn: '4h' });
+    const token = createToken(id);
     await Users.updateToken(id, token);
     return res.status(OK).json({
       status: 'success',
