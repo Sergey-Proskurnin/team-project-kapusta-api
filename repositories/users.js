@@ -18,7 +18,11 @@ const create = async body => {
 };
 
 const updateToken = async (id, token) => {
-  return await User.findOneAndUpdate({ _id: id }, { token }, { returnDocument: 'after' });
+  return await User.findOneAndUpdate(
+    { _id: id },
+    { token },
+    { returnDocument: 'after' },
+  );
 };
 
 const updateTokenVerify = async (id, verify, verifyToken) => {
@@ -44,7 +48,11 @@ const createBalance = async (id, balance) => {
 const updateGoogleUser = async (userId, body) => {
   const result = await User.findOneAndUpdate(
     { _id: userId },
-    { avatarURL: body, verify: true, verifyToken: null },
+    {
+      avatarURL: body,
+      verify: true,
+      verifyToken: null,
+    },
 
     { returnDocument: 'after', runValidators: true },
   );
