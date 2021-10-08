@@ -11,11 +11,8 @@ const current = async (req, res, next) => {
       token,
       idCloudAvatar,
       balance,
-      frend,
-      googleId,
-      googleEmail,
-      googleAvatar,
-    } = req.user;
+      friend
+      } = req.user;
     return res.status(OK).json({
       status: 'success',
       code: OK,
@@ -26,10 +23,7 @@ const current = async (req, res, next) => {
         token,
         idCloudAvatar,
         balance,
-        frend,
-        googleId,
-        googleEmail,
-        googleAvatar,
+        friend
       },
     });
   } catch (error) {
