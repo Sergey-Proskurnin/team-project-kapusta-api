@@ -7,13 +7,13 @@ const {
 
 const joiTransactionSchema = Joi.object({
   type: Joi.string().required(),
-  date: Joi.date().required(),
+  date: Joi.string().required(),
   category: Joi.string().required(),
   subCategory: Joi.string().required(),
   sum: Joi.number().required(),
-  day: Joi.number().integer().min(1).max(31),
-  month: Joi.number().integer().min(1).max(12),
-  year: Joi.number().integer().min(2000),
+  day: Joi.string(),
+  month: Joi.string(),
+  year: Joi.string(),
 });
 
 module.exports = {
