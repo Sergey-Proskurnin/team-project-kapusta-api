@@ -27,21 +27,13 @@ const transactionSchema = Schema(
       required: true,
     },
     day: {
-      type: Number,
-      min: 1,
-      max: 31,
+      type: String,
     },
     month: {
-      type: Number,
-      get: v => v.padStart(2, '0'),
-      set: v => v.padStart(2, '0'),
-      alias: 'i',
-      min: 1,
-      max: 12,
+      type: String,
     },
     year: {
-      type: Number,
-      min: 2000,
+      type: String,
     },
     owner: {
       type: Schema.Types.ObjectId,

@@ -45,6 +45,17 @@ const userSchema = new Schema(
     },
     balance: { type: Number, default: 0 },
     friend: { type: String, default: null },
+    googleId: { type: String, default: null },
+    googleEmail: {
+      type: String,
+      // unique: true,
+      // validate(value) {
+      //   const re = /\S+@\S+\.\S+/g;
+      //   return re.test(String(value).toLowerCase());
+      // },
+      default: null,
+    },
+    googleAvatar: { type: String, default: null },
   },
   {
     versionKey: false,
