@@ -145,7 +145,7 @@
     "/users/logout": {
       "post": {
         "tags": ["Auth"],
-        "summary": "User current",
+        "summary": "User logout",
         "parameters": [],
         "security": [{ "Bearer": [] }],
         "requestBody": {},
@@ -162,6 +162,46 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/balance": {
+      "patch": {
+        "tags": ["Auth"],
+        "summary": "User balance",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Balance's object",
+            "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BalanceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceErrorResponse"
                 }
               }
             }
@@ -398,6 +438,56 @@
             "type": "string",
             "description": "Massage error server",
             "example": "Server error"
+          }
+        }
+      },
+      "BalanceRequest": {
+        "type": "object",
+          "properties": {
+          "balance": {
+            "type": "number",
+            "description": "User's balance",
+            "example": 0
+          }
+        }
+      },
+      "BalanceResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "success"
+          },
+          "code": {
+            "type": "string",
+            "description": "200"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "balance": {
+                "type": "number",
+                "description": "User's balance",
+                "example": 50000
+              }
+            }
+          }
+        }
+      },
+      "BalanceErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "error"
+          },
+          "code": {
+            "type": "string",
+            "description": "404"
+          },
+          "message": {
+            "type": "string",
+            "description": "Not found"
           }
         }
       }

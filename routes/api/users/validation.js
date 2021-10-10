@@ -54,7 +54,7 @@ module.exports = {
     });
   },
   validationBalanceUser: (req, res, next) => {
-    if (!isNaN(req.bodyv)) {
+     if (!isNaN(req.body.balance)) {
       return validate(schemaBalanceUser, req.body, next);
     }
     return res.status(BAD_REQUEST).json({
