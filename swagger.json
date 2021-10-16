@@ -9,8 +9,13 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "consumes": ["application/json"],
-  "produces": ["application/json"],
+  "consumes": [
+    "application/json",
+    "text/plain",
+    "multipart/form-data",
+    "image/*"
+  ],
+  "produces": ["application/json", "text/plain", "application/xml"],
   "servers": [{ "url": "https://kapusta-api.herokuapp.com/api/v1" }],
   "tags": [
     {
@@ -22,7 +27,7 @@
     "/users/signup": {
       "post": {
         "tags": ["Auth"],
-        "summary": "User Register",
+        "summary": "User registration",
         "parameters": [],
         "requestBody": {
           "description": "Register's object",
@@ -62,7 +67,7 @@
     "/users/login": {
       "post": {
         "tags": ["Auth"],
-        "summary": "User login",
+        "summary": "User authentication",
         "parameters": [],
         "requestBody": {
           "description": "Login's object",
@@ -202,6 +207,43 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/BalanceErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/verify": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "User email verify",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "verificationToken",
+            "required": true,
+            "type": "string",
+            "description": "Users's verify token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserVerifyResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Fail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseUserVerify"
                 }
               }
             }
@@ -479,15 +521,42 @@
         "properties": {
           "status": {
             "type": "string",
-            "description": "error"
+            "description": "error",
+            "example": "error"
           },
           "code": {
             "type": "string",
-            "description": "404"
+            "description": "404",
+            "example": "404"
           },
           "message": {
             "type": "string",
-            "description": "Not found"
+            "description": "Not found",
+            "example": "Not found"
+          }
+        }
+      },
+      "UserVerifyResponse": {
+        "type": "string",
+        "example": "Congratulations, your email has been successfully verified, go to the login page in the phone book and enter your email and password."
+      },
+      "ErrorResponseUserVerify": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "error",
+            "example": "error"
+          },
+          "code": {
+            "type": "string",
+            "description": "404",
+            "example": "404"
+          },
+          "message": {
+            "type": "string",
+            "description": "User not found",
+            "example": "User not found"
           }
         }
       }
