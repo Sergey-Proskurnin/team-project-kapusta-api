@@ -25,9 +25,9 @@ class EmailService {
 
   #createTemplateVerificationEmail(verifyToken, emailName) {
     const mailGenerator = new Mailgen({
-      theme: 'neopolitan',
+      theme: 'salted',
       product: {
-        name: 'PSG System',
+        name: 'KAPU$TA LLC',
         link: this.link,
       },
     });
@@ -35,11 +35,11 @@ class EmailService {
     const email = {
       body: {
         name: this.capitalize(emailName),
-        intro: "Welcome PSG System! We're very excited to have you on board.",
+        intro: "Welcome KAPU$TA LLC! We're very excited to have you on board.",
         action: {
-          instructions: 'To get started with PSG System, please click here:',
+          instructions: 'To get started with KAPU$TA LLC, please click here:',
           button: {
-            color: '#22BC66',
+            color: '#FF751D',
             text: 'Confirm your account',
             link: `${this.link}/api/v1/users/verify/${verifyToken}`,
           },
