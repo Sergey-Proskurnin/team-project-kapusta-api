@@ -9,6 +9,6 @@ router.get('/:date', guard, ctrl.getAllTransactionsByDate);
 router.get('/period/:period', guard, ctrl.getAllTransactionsByPeriod);
 router.post('/', guard, validationTransactionSchema, ctrl.createTransaction);
 router.delete('/:id', guard, ctrl.removeTransaction);
-router.put('/:id', guard, validationTransactionSchema, ctrl.updateTransaction);
+router.put('/:id', guard, ctrl.updateTransaction);
 
 module.exports = router;

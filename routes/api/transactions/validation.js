@@ -7,6 +7,7 @@ const {
 
 const joiTransactionSchema = Joi.object({
   type: Joi.string().required(),
+  _id: Joi.string(),
   date: Joi.string().required(),
   category: Joi.string().required(),
   subCategory: Joi.string().required(),
