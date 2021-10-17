@@ -22,10 +22,11 @@ const joiTransactionUpdateSchema = Joi.object({
   category: Joi.string().optional(),
   subCategory: Joi.string().optional(),
   sum: Joi.number().optional(),
-  day: Joi.string().optional(),
   month: Joi.string().optional(),
   year: Joi.string().optional(),
   owner: Joi.string().optional(),
+  updatedAt: Joi.string().optional(),
+  createdAt: Joi.string().optional(),
   _id: Joi.string(),
 });
 
