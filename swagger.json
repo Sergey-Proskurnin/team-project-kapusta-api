@@ -21,6 +21,10 @@
     {
       "name": "Auth",
       "description": "Authorization endpoints"
+    },
+    {
+      "name": "Transactions",
+      "description": "Transactions endpoints"
     }
   ],
   "paths": {
@@ -182,7 +186,7 @@
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Balance's object",
-            "content": {
+          "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/BalanceRequest"
@@ -214,7 +218,7 @@
         }
       }
     },
-    "/users/verify": {
+    "/users/verify/{verificationToken}": {
       "get": {
         "tags": ["Auth"],
         "summary": "User email verify",
@@ -251,224 +255,215 @@
         }
       }
     },  
-  "/transaction": {
-    "post": {
-      "tags": ["Auth"],
-      "summary": "Add new transaction",
-      "parameters": [],
-      "security": [{ "Bearer": [] }],
-      "requestBody": {
-        "description": "Transaction's object with balance",
-        "required": true,
-        "requestBodyTransaction": {
-          "description": "Transaction's object",
+    "/transaction": {
+      "post": {
+        "tags": ["Transactions"],
+        "summary": "Add new transaction",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Transaction's object with balance",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTransactionRequest"
+                "type": "object",
+                "properties": {
+                  "transaction": {
+                   "$ref": "#/components/schemas/CreateTransactionRequest"
+                  },
+                  "balance": {
+                    "$ref": "#/components/schemas/BalanceForTransactionRequest"
+                  }
+                }                
               }
             }
           }
-        },
-        "requestBodyBalance": {
-          "description": "Balance's object",
+        },         
+        "responses": {
+          "201": {
+            "description": "success",
             "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/BalanceRequest"
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateTransactionResponse"
+                }
               }
             }
-          }
-        }
-      },
-      "responses": {
-        "201": {
-          "description": "success",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateTransactionResponse"
-              }
-            }
-          }
-        },
-        "400": {
-          "description": "Bad request",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateTransactionError"
-              }
-            }
-          }
-        },
-        "404": {
-          "description": "Not found",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/BalanceErrorResponse"
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "/transaction/{id}": {
-    "delete": {
-      "tags": ["Auth"],
-      "summary": "Delete one transaction",
-      "parameters": [{
-        "in": "path",
-        "name": "id",
-        "required": true,
-        "type": "string",
-        "description": "The id of transaction",
-        "example": "615ca9a2e6502c38886cf887"
-      }],
-      "security": [{ "Bearer": [] }],
-      "requestBody": {},
-      "responses": {
-        "200": {
-          "description": "ok",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeleteTransactionResponse"
-              }
-            }            
-          }
-        },
-        "404": {
-          "description": "Not found",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeleteTransactionErrorResponse"
-              }
-            }
-          }
-        }
-      }      
-    }
-  },
-  "/transaction/:id": {
-    "put": {
-      "tags": ["Auth"],
-      "summary": "Update transaction",
-      "parameters": [{
-        "in": "path",
-        "name": "id",
-        "required": true,
-        "type": "string",
-        "description": "The id of transaction",
-        "example": "615ca9a2e6502c38886cf887"
-       }],
-      "security": [{ "Bearer": [] }],
-      "requestBody": {
-        "description": "Transaction's object with balance",
-        "required": true,
-        "requestBodyTransaction": {
-          "description": "Modified transaction's object",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateTransactionRequest"
-              }
-            }
-          }
-        },
-        "requestBodyBalance": {
-          "description": "Modified balance's object",
+          },
+          "400": {
+            "description": "Bad request",
             "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/BalanceRequest"
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateTransactionError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceErrorResponse"
+                }
               }
             }
           }
         }
-      },
-      "responses": {
-        "201": {
-          "description": "success",
+      }
+    },  
+    "/transaction/{id}": {
+      "delete": {
+        "tags": ["Transactions"],
+        "summary": "Delete one transaction",
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string",
+          "description": "The id of transaction",
+          "example": "615ca9a2e6502c38886cf887"
+        }],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteTransactionResponse"
+                }
+              }            
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteTransactionErrorResponse"
+                }
+              }
+            }
+          }
+        }      
+      }
+    },
+    "/transaction/{transactionId}": {
+      "put": {
+        "tags": ["Transactions"],
+        "summary": "Update transaction",
+        "parameters": [{
+          "in": "path",
+          "name": "transactionId",
+          "required": true,
+          "type": "string",
+          "description": "The id of transaction",
+          "example": "615ca9a2e6502c38886cf887"
+        }],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Transaction's object with balance",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateTransactionResponse"
+                "type": "object",
+                "properties": {
+                  "transaction": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/UpdateTransactionRequest"
+                  },
+                  "balance": {
+                    "$ref": "#/components/schemas/BalanceForTransactionRequest"
+                  }
+                }                
               }
             }
           }
         },
-        "404": {
-          "description": "Not found",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateTransactionErrorResponse"
+        "responses": {
+          "201": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateTransactionResponse"
+                }
               }
             }
-          }
-        }        
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateTransactionErrorResponse"
+                }
+              }
+            }
+          }        
+        }
+      }
+    },
+    "/transaction/{date}": {
+      "get": {
+        "tags": ["Transactions"],
+        "summary": "Get transactions by date",
+        "parameters": [{
+          "in": "path",
+          "name": "date",
+          "required": true,
+          "type": "string",
+          "description": "The date of transactions",
+          "example": "05.05.2020"
+          }],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetTransactionByDateResponse"
+                }
+              }
+            }
+          } 
+        }              
+      }
+    },
+    "/transaction/period/{period}": {
+      "get": {
+        "tags": ["Transactions"],
+        "summary": "Get transactions by period",
+        "parameters": [{
+          "in": "path",
+          "name": "period",
+          "required": true,
+          "type": "string",
+          "description": "Period of transactions",
+          "example": "05.2020"
+        }],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetTransactionByPeriodResponse"
+                }
+              }
+            }
+          }               
+        }
       }
     }
   },
-  "/transaction/{date}": {
-    "get": {
-      "tags": ["Auth"],
-      "summary": "Get transactions by date",
-      "parameters": [{
-        "in": "path",
-        "name": "date",
-        "required": true,
-        "type": "string",
-        "description": "The date of transactions",
-        "example": "05.05.2020"
-        }],
-      "security": [{ "Bearer": [] }],
-      "responses": {
-        "200": {
-          "description": "success",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GetTransactionByDateResponse"
-              }
-            }
-          }
-        }               
-      }
-    }
-  },
-  "/transaction/period/{period}": {
-    "get": {
-      "tags": ["Auth"],
-      "summary": "Get transactions by period",
-      "parameters": [{
-        "in": "path",
-        "name": "period",
-        "required": true,
-        "type": "string",
-        "description": "Period of transactions",
-        "example": "05.2020"
-        }],
-      "security": [{ "Bearer": [] }],
-      "responses": {
-        "200": {
-          "description": "success",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GetTransactionByPeriodResponse"
-              }
-            }
-          }
-        }               
-      }
-    }
-  }
-},
   "components": {
     "schemas": {
       "RegisterRequest": {
@@ -814,6 +809,16 @@
           "year": {
             "type": "string",
             "description": "Year of transaction"
+          }
+        }
+      },
+      "BalanceForTransactionRequest": {
+        "type": "number",
+          "properties": {
+          "balance": {
+            "type": "number",
+            "description": "User's balance",
+            "example": 0
           }
         }
       },
@@ -1246,3 +1251,4 @@
     }
   }
 }
+
