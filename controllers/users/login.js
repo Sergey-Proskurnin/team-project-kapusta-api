@@ -1,7 +1,7 @@
 const Users = require('../../repositories/users');
 const {
   HttpCode: { OK, UNAUTHORIZED },
-  createToken,
+  createToken, createRefreshToken,
 } = require('../../helpers');
 
 const login = async (req, res, next) => {
@@ -26,11 +26,12 @@ const login = async (req, res, next) => {
     const { name, email } = user;
     const id = user.id;
     const token = createToken(id);
-    await Users.updateToken(id, token);
+    const refreshToken = createRefreshToken(id);
+    await Users.updateToken(id, token, refreshToken);
     return res.status(OK).json({
       status: 'success',
       code: OK,
-      data: { token, user: { name, email } },
+      data: { token, refreshToken, user: { name, email } },
     });
   } catch (error) {
     next(error);

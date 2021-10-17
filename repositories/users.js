@@ -17,10 +17,10 @@ const create = async body => {
   return await user.save();
 };
 
-const updateToken = async (id, token) => {
+const updateToken = async (id, token, refreshToken) => {
   return await User.findOneAndUpdate(
     { _id: id },
-    { token },
+    { token, refreshToken },
     { returnDocument: 'after' },
   );
 };

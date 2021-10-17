@@ -6,6 +6,7 @@ const avatars = require('./avatars');
 const verify = require('./verify');
 const repeatEmailVerify = require('./repeatEmailVerify');
 const balance = require('./balance');
+const refresh = require('./refresh');
 const { googleAuth, googleRedirect } = require('./auth-google');
 
 module.exports = {
@@ -15,6 +16,7 @@ module.exports = {
   current,
   avatars,
   verify,
+  refresh,
   repeatEmailVerify,
   balance,
   googleAuth,
