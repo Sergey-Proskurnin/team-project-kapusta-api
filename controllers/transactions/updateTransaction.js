@@ -30,6 +30,8 @@ const updateTransaction = async (req, res, next) => {
     }
     const { balance } = resultBalance;
     res.status(CREATED).json({
+      status: 'Created',
+      code: CREATED,
       result,
       balance,
     });

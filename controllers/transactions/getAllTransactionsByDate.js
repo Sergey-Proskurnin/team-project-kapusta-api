@@ -11,6 +11,8 @@ const getAllTransactionsByDate = async (req, res, next) => {
       date,
     });
     res.status(OK).json({
+      status: 'Ok',
+      code: OK,
       result,
     });
   } catch (error) {

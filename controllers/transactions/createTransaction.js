@@ -19,6 +19,8 @@ const createTransaction = async (req, res, next) => {
     }
     const { balance } = resultBalance;
     res.status(CREATED).json({
+      status: 'Created',
+      code: CREATED,
       resultTransaction,
       balance,
     });
