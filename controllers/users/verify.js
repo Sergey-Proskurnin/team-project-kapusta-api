@@ -11,7 +11,7 @@ const verify = async (req, res, next) => {
       return res
         .status(OK)
         .send(
-          '<h1>Congratulations, your email has been successfully verified, go to the <a href="http://localhost:3000">login</a> page in the phone book and enter your email and password.</h1>',
+          '<h1>Congratulations, your email has been successfully verified, go to the <a href="https://kapusta-fsd28.netlify.app">login</a> page in the phone book and enter your email and password.</h1>',
         );
     }
     return res
