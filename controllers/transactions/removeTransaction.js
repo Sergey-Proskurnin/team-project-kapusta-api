@@ -10,11 +10,14 @@ const removeTransaction = async (req, res, next) => {
     const result = await Transaction.findByIdAndRemove({ _id: id });
     if (!result) {
       return res.status(NOT_FOUND).json({
-        message: 'Not found',
+        status: 'error',
+        code: '404',
+        message: 'Id of transaction not found',
       });
     }
-     res.status(OK).json({
-      message: 'Your transaction was deleted!'
+    res.status(OK).json({
+      code: '200',
+      message: 'Your transaction was deleted!',
     });
   } catch (error) {
     next();

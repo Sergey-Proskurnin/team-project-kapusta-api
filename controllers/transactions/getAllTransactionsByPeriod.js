@@ -25,6 +25,8 @@ const getAllTransactionsByPeriod = async (req, res, next) => {
           month,
         });
         res.status(OK).json({
+          status: 'Ok',
+          code: OK,
           result,
         });
       }

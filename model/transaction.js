@@ -9,9 +9,6 @@ const transactionSchema = Schema(
       enum: ['income', 'expense'],
       required: true,
     },
-    id: {
-      type: String,
-    },
     date: {
       type: String,
       required: true,
