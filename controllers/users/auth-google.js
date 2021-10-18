@@ -2,7 +2,7 @@ const queryString = require('query-string');
 const axios = require('axios');
 require('dotenv').config();
 
-const { createToken } = require('../../helpers');
+const { createToken, createRefreshToken } = require('../../helpers');
 
 const Users = require('../../repositories/users');
 
@@ -42,7 +42,6 @@ const googleAuth = async (_req, res, next) => {
 };
 
 const googleRedirect = async (req, res, next) => {
-  console.log(req.originalUrl);
   try {
     const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
     const urlObj = new URL(fullUrl);
@@ -78,16 +77,19 @@ const googleRedirect = async (req, res, next) => {
       const idUser = newUser.id;
       await Users.updateGoogleUser(idUser, picture);
       const token = createToken(idUser);
-      const userToken = await Users.updateToken(idUser, token);
+      const refreshToken = createRefreshToken(idUser);
+      const userToken = await Users.updateToken(idUser, token, refreshToken);
       return res.redirect(
-        `${process.env.FRONTEND_URL}?token=${userToken.token}`,
+        `${process.env.FRONTEND_URL}?token=${userToken.token}&refreshToken=${refreshToken}`,
       );
     }
     const idUser = user.id;
     const token = createToken(idUser);
-    const userToken = await Users.updateToken(idUser, token);
-
-    return res.redirect(`${process.env.FRONTEND_URL}?token=${userToken.token}`);
+    const refreshToken = createRefreshToken(idUser);
+    const userToken = await Users.updateToken(idUser, token, refreshToken);
+    return res.redirect(
+      `${process.env.FRONTEND_URL}?token=${userToken.token}&refreshToken=${refreshToken}`,
+    );
   } catch (error) {
     next(error);
   }
