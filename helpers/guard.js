@@ -12,13 +12,21 @@ const guard = (req, res, next) => {
       token = headerAuth.split(' ')[1];
     }
 
-    if (error || !user || token !== user?.token) {
+    if (error) {
       return res.status(UNAUTHORIZED).json({
         status: 'error',
         code: UNAUTHORIZED,
-        message: 'Not authorized',
+        message: 'Not authorized Unvalid token ',
       });
     }
+    if (!user || token !== user?.token) {
+      return res.status(UNAUTHORIZED).json({
+        status: 'error',
+        code: UNAUTHORIZED,
+        message: 'Unvalid token',
+      });
+    }
+
     req.user = user;
     return next();
   })(req, res, next);
