@@ -17,10 +17,10 @@ const create = async body => {
   return await user.save();
 };
 
-const updateToken = async (id, token) => {
+const updateToken = async (id, token, refreshToken) => {
   return await User.findOneAndUpdate(
     { _id: id },
-    { token },
+    { token, refreshToken },
     { returnDocument: 'after' },
   );
 };
@@ -53,7 +53,6 @@ const updateGoogleUser = async (userId, body) => {
       verify: true,
       verifyToken: null,
     },
-
     { returnDocument: 'after', runValidators: true },
   );
   return result;

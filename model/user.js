@@ -30,6 +30,10 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
+    refreshToken: {
+      type: String,
+      default: null,
+    }, 
     avatarURL: {
       type: String,
       default: function () {
@@ -44,7 +48,6 @@ const userSchema = new Schema(
       default: uuid(),
     },
     balance: { type: Number, default: 0 },
-    friend: { type: String, default: null },
   },
   {
     versionKey: false,
