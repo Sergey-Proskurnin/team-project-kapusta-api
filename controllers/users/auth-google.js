@@ -6,7 +6,7 @@ const { createToken } = require('../../helpers');
 
 const Users = require('../../repositories/users');
 
-let HOST
+let HOST;
 
 switch (process.env.NODE_ENV) {
   case 'development':
@@ -20,9 +20,8 @@ switch (process.env.NODE_ENV) {
     break;
 }
 
-const googleAuth = async (req, res, next) => {
+const googleAuth = async (_req, res, next) => {
   try {
-    console.log(createToken);
     const stringifiedParams = queryString.stringify({
       client_id: process.env.GOOGLE_CLIENT_ID,
       redirect_uri: `${HOST}/api/v1/users/google-redirect`,

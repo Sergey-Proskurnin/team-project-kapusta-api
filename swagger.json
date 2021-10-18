@@ -121,12 +121,9 @@
     "/users/current": {
       "get": {
         "tags": ["Auth"],
-        "summary": "User current",
+        "summary": "User current. Check the token in the request header!",
         "parameters": [],
         "security": [{ "Bearer": [] }],
-        "requestBody": {
-          "description": "Current user object"
-        },
         "responses": {
           "200": {
             "description": "success",
@@ -186,6 +183,7 @@
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Balance's object",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -210,7 +208,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BalanceErrorResponse"
+                  "$ref": "#/components/schemas/NotFoundErrorResponse"
                 }
               }
             }
@@ -254,7 +252,146 @@
           }
         }
       }
-    },  
+    },
+    "/users/verify": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User email repeat verify",
+        "parameters": [],
+        "requestBody": {
+          "description": "User email object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RepeatVerifyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRepeatVerifyResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Verification has already been passed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseUserRepeatVerify"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/google": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Google authentication. WARNING: Works only for sign-in, after registered on front-end (if you're writing your back-end for a SPECIFIC front-end, then you can configure it right to work both for sign-up & sign-in)",
+        "parameters": [],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "Successful operation (redirect to front-end with accessToken, refreshToken and sid in query). Then use GET /user",
+            "content": {}
+          },
+          "403": {
+            "description": "Not registered",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/users/avatars": {
+      "patch": {
+        "tags": ["Auth"],
+        "summary": "User's avatar",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "User's avatar",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchUserAvatar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserAvatarResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Fail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/refresh": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Refresh token. Change Bearer RefreshToken on header request!",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Fail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/transaction": {
       "post": {
         "tags": ["Transactions"],
@@ -270,16 +407,16 @@
                 "type": "object",
                 "properties": {
                   "transaction": {
-                   "$ref": "#/components/schemas/CreateTransactionRequest"
+                    "$ref": "#/components/schemas/CreateTransactionRequest"
                   },
                   "balance": {
                     "$ref": "#/components/schemas/BalanceForTransactionRequest"
                   }
-                }                
+                }
               }
             }
           }
-        },         
+        },
         "responses": {
           "201": {
             "description": "success",
@@ -313,19 +450,21 @@
           }
         }
       }
-    },  
+    },
     "/transaction/{id}": {
       "delete": {
         "tags": ["Transactions"],
         "summary": "Delete one transaction",
-        "parameters": [{
-          "in": "path",
-          "name": "id",
-          "required": true,
-          "type": "string",
-          "description": "The id of transaction",
-          "example": "615ca9a2e6502c38886cf887"
-        }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "description": "The id of transaction",
+            "example": "615ca9a2e6502c38886cf887"
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "requestBody": {},
         "responses": {
@@ -336,7 +475,7 @@
                 "schema": {
                   "$ref": "#/components/schemas/DeleteTransactionResponse"
                 }
-              }            
+              }
             }
           },
           "404": {
@@ -349,21 +488,23 @@
               }
             }
           }
-        }      
+        }
       }
     },
     "/transaction/{transactionId}": {
       "put": {
         "tags": ["Transactions"],
         "summary": "Update transaction",
-        "parameters": [{
-          "in": "path",
-          "name": "transactionId",
-          "required": true,
-          "type": "string",
-          "description": "The id of transaction",
-          "example": "615ca9a2e6502c38886cf887"
-        }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "transactionId",
+            "required": true,
+            "type": "string",
+            "description": "The id of transaction",
+            "example": "615ca9a2e6502c38886cf887"
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Transaction's object with balance",
@@ -380,7 +521,7 @@
                   "balance": {
                     "$ref": "#/components/schemas/BalanceForTransactionRequest"
                   }
-                }                
+                }
               }
             }
           }
@@ -405,7 +546,7 @@
                 }
               }
             }
-          }        
+          }
         }
       }
     },
@@ -413,14 +554,16 @@
       "get": {
         "tags": ["Transactions"],
         "summary": "Get transactions by date",
-        "parameters": [{
-          "in": "path",
-          "name": "date",
-          "required": true,
-          "type": "string",
-          "description": "The date of transactions",
-          "example": "05.05.2020"
-          }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "date",
+            "required": true,
+            "type": "string",
+            "description": "The date of transactions",
+            "example": "05.05.2020"
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
@@ -432,22 +575,24 @@
                 }
               }
             }
-          } 
-        }              
+          }
+        }
       }
     },
     "/transaction/period/{period}": {
       "get": {
         "tags": ["Transactions"],
         "summary": "Get transactions by period",
-        "parameters": [{
-          "in": "path",
-          "name": "period",
-          "required": true,
-          "type": "string",
-          "description": "Period of transactions",
-          "example": "05.2020"
-        }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "period",
+            "required": true,
+            "type": "string",
+            "description": "Period of transactions",
+            "example": "05.2020"
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
@@ -459,7 +604,7 @@
                 }
               }
             }
-          }               
+          }
         }
       }
     }
@@ -697,7 +842,7 @@
       },
       "BalanceRequest": {
         "type": "object",
-          "properties": {
+        "properties": {
           "balance": {
             "type": "number",
             "description": "User's balance",
@@ -728,7 +873,7 @@
           }
         }
       },
-      "BalanceErrorResponse": {
+      "NotFoundErrorResponse": {
         "type": "object",
         "properties": {
           "status": {
@@ -750,7 +895,13 @@
       },
       "UserVerifyResponse": {
         "type": "string",
-        "example": "Congratulations, your email has been successfully verified, go to the login page in the phone book and enter your email and password."
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Email verify",
+            "example": "Congratulations, your email has been successfully verified, go to the login page in the phone book and enter your email and password."
+          }
+        }
       },
       "ErrorResponseUserVerify": {
         "type": "object",
@@ -769,6 +920,107 @@
             "type": "string",
             "description": "User not found",
             "example": "User not found"
+          }
+        }
+      },
+      "RepeatVerifyRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          }
+        }
+      },
+      "UserRepeatVerifyResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "success"
+          },
+          "code": {
+            "type": "string",
+            "description": "200"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "description": "Verification email sent",
+                "example": "Verification email sent"
+              }
+            }
+          }
+        }
+      },
+      "ErrorResponseUserRepeatVerify": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "error",
+            "example": "error"
+          },
+          "code": {
+            "type": "string",
+            "description": "409",
+            "example": "409"
+          },
+          "message": {
+            "type": "string",
+            "description": "Verification has already been passed",
+            "example": "Verification has already been passed"
+          }
+        }
+      },
+      "PatchUserAvatar": {
+        "parameters": [
+          {
+            "name": "Avatar",
+            "in": "qwery",
+            "description": "Avatar",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "type": "object",
+
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Avatar",
+            "example": "Avatar"
+          },
+          "file": {
+            "type": "string",
+            "format": "binary",
+            "description": "User's avatar"
+          }
+        }
+      },
+      "UserAvatarResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "success"
+          },
+          "code": {
+            "type": "string",
+            "description": "200"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "avatarURL": {
+                "type": "string",
+                "description": "Link to user's avatar",
+                "example": "https://s.gravatar.com/avatar/c61f12f616393799baecd77a09b6565c?s=250"
+              }
+            }
           }
         }
       },
@@ -814,7 +1066,7 @@
       },
       "BalanceForTransactionRequest": {
         "type": "number",
-          "properties": {
+        "properties": {
           "balance": {
             "type": "number",
             "description": "User's balance",
@@ -1164,7 +1416,7 @@
                 "description": "Date updation of transaction"
               }
             }
-          }          
+          }
         }
       },
       "GetTransactionByPeriodResponse": {
@@ -1238,7 +1490,7 @@
                 "description": "Date updation of transaction"
               }
             }
-          }          
+          }
         }
       }
     },
@@ -1251,4 +1503,3 @@
     }
   }
 }
-
