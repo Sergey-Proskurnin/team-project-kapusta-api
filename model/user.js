@@ -48,7 +48,6 @@ const userSchema = new Schema(
       default: uuid(),
     },
     balance: { type: Number, default: 0 },
-    friend: { type: String, default: null },
   },
   {
     versionKey: false,

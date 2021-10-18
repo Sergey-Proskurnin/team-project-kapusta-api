@@ -53,7 +53,6 @@ const updateGoogleUser = async (userId, body) => {
       verify: true,
       verifyToken: null,
     },
-
     { returnDocument: 'after', runValidators: true },
   );
   return result;
