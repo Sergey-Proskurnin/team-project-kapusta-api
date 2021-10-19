@@ -374,7 +374,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CurrentResponse"
+                  "$ref": "#/components/schemas/RefreshResponse"
                 }
               }
             }
@@ -719,6 +719,10 @@
                 "type": "string",
                 "description": "User's token"
               },
+              "refreshToken": {
+                "type": "string",
+                "description": "User's token"
+              },
               "user": {
                 "type": "object",
                 "description": "User's credential",
@@ -783,7 +787,7 @@
             "type": "string",
             "description": "200"
           },
-          "user": {
+          "data": {
             "type": "object",
             "description": "User's credential",
             "properties": {
@@ -811,10 +815,6 @@
               "balance": {
                 "type": "number",
                 "description": "User's balance"
-              },
-              "friend": {
-                "type": "string",
-                "description": "User's id cloud friend"
               }
             }
           }
@@ -1024,6 +1024,69 @@
           }
         }
       },
+      "RefreshResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "success"
+          },
+          "code": {
+            "type": "string",
+            "description": "200"
+          },
+          "data": {
+            "type": "object",
+            "description": "User's credential",
+            "properties": {
+              "token": {
+                "type": "string",
+                "description": "User's token"
+              },
+              "refreshToken": {
+                "type": "string",
+                "description": "User's token"
+              },
+              "user": {
+                "type": "object",
+                "description": "User's credential",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "User's name"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "User's email",
+                    "format": "email"
+                  },
+                  "avatarURL": {
+                    "type": "string",
+                    "description": "User's avatar"
+                  },
+                  "token": {
+                    "type": "string",
+                    "description": "User's token"
+                  },
+                  "idCloudAvatar": {
+                    "type": "string",
+                    "description": "User's id cloud avatar"
+                  },
+                  "balance": {
+                    "type": "number",
+                    "description": "User's balance"
+                  },
+                  "refreshToken": {
+                    "type": "string",
+                    "description": "User's token"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+
       "CreateTransactionRequest": {
         "type": "object",
         "required": ["type", "date", "category", "subCategory", "sum"],
