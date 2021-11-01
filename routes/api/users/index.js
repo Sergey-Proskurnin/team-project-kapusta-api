@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const guard = require('../../../helpers/guard');
+const guardRefresh = require('../../../helpers/guardRefresh');
+
 const { upload } = require('../../../helpers');
 const {
   validationPаramsUserSignup,
@@ -21,6 +23,6 @@ router.post('/verify', validationVerificationEmail, ctrl.repeatEmailVerify);
 router.patch('/balance', guard, validationBalanceUser, ctrl.balance);
 router.get('/google', ctrl.googleAuth);
 router.get('/google-redirect', ctrl.googleRedirect);
-router.get("/refresh", ctrl.refresh);
+router.get('/refresh', guardRefresh, ctrl.refresh);
 
 module.exports = router;
