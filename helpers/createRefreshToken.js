@@ -4,7 +4,7 @@ require('dotenv').config();
 const createRefreshToken = id => {
   const payloload = { id, test: 'Hellow mamkin hacker 2' };
   const token = jwt.sign(payloload, process.env.SECRET_KEY, {
-    expiresIn: '2h',
+    expiresIn: '120m',
   });
   return token;
 };
