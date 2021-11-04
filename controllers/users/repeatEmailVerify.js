@@ -1,6 +1,6 @@
 const Users = require('../../repositories/users');
 const EmailService = require('../../services/email');
-const { CreateSenderNodemailer } = require('../../services/email-sender');
+const { CreateSenderSendGrid } = require('../../services/email-sender');
 const {
   HttpCode: { OK, CONFLICT, NOT_FOUND },
 } = require('../../helpers');
@@ -9,13 +9,14 @@ const repeatEmailVerify = async (req, res, next) => {
   try {
     const user = await Users.findByEmail(req.body.email);
     if (user) {
-      const { email, verify, verifyToken } = user;
+      const { email, name, verify, verifyToken } = user;
       if (!verify) {
         const emailService = new EmailService(
           process.env.NODE_ENV,
-          new CreateSenderNodemailer(),
+          // new CreateSenderNodemailer(),
+          new CreateSenderSendGrid(),
         );
-        await emailService.sendVerifyEmail(verifyToken, email);
+        await emailService.sendVerifyEmail(verifyToken, email, name);
         return res.status(OK).json({
           status: 'success',
           code: OK,
