@@ -7,10 +7,10 @@ const {
 
 const schemaPаramsrUserSignup = Joi.object({
   name: Joi.string()
-    .pattern(/^[a-zA-Z' '\-()0-9]{3,30}$/)
+    .pattern(/^[A-Za-zА-Яа-яЁёЄєЇї' '\-()0-9]{3,30}$/)
     .required(),
   password: Joi.string()
-    .pattern(/[0-9a-zA-Z!@#$%^&*]{6,}/)
+    .pattern(/[0-9A-Za-zА-Яа-яЁёЄєЇї!@#$%^&*]{6,}/)
     .required(),
   email: Joi.string().email({ minDomainSegments: 2, tlds: false }).required(),
   subscription: Joi.string().optional(),
@@ -18,7 +18,7 @@ const schemaPаramsrUserSignup = Joi.object({
 
 const schemaPаramsrUserLogin = Joi.object({
   password: Joi.string()
-    .pattern(/[0-9a-zA-Z!@#$%^&*]{6,}/)
+    .pattern(/[0-9A-Za-zА-Яа-яЁёЄєЇї!@#$%^&*]{6,}/)
     .required(),
   email: Joi.string().email({ minDomainSegments: 2, tlds: false }).required(),
   subscription: Joi.string().optional(),
