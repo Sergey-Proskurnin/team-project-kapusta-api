@@ -22,8 +22,10 @@ class UploadService {
         250,
         Jimp.HORIZONTAL_ALIGN_CENTER | Jimp.VERTICAL_ALIGN_MIDDLE,
       )
-      .circle({ radius: 100 })
+      .circle({ radius: 120 })
+      .background( 0xFFFFFFFF )
       .writeAsync(pathFile);
+    
   }
 
   async saveAvatar(pathFile, oldIdCloudAvatar) {

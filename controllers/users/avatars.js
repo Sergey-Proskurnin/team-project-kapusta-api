@@ -22,11 +22,11 @@ const avatars = async (req, res, next) => {
     } catch (error) {
       console.log(error.message);
     }
-    await Users.updateAvatar(id, avatarUrl, idCloudAvatar);
+   const updatedUser = await Users.updateAvatar(id, avatarUrl, idCloudAvatar);
     res.status(OK).json({
       status: 'success',
       code: OK,
-      data: { avatarURL: avatarUrl },
+      data: { user: updatedUser },
     });
   } catch (error) {
     next(error);

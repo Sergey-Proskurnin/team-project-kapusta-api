@@ -29,9 +29,10 @@ const updateTokenVerify = async (id, verify, verifyToken) => {
   return await User.updateOne({ _id: id }, { verify, verifyToken });
 };
 const updateAvatar = async (id, avatar, idCloudAvatar = null) => {
-  const result = await User.updateOne(
+  const result = await User.findOneAndUpdate(
     { _id: id },
     { avatarURL: avatar, idCloudAvatar },
+    { returnDocument: 'after' },
   );
   return result;
 };
