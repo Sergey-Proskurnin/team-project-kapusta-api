@@ -28,10 +28,10 @@ const updateToken = async (id, token, refreshToken) => {
 const updateTokenVerify = async (id, verify, verifyToken) => {
   return await User.updateOne({ _id: id }, { verify, verifyToken });
 };
-const updateAvatar = async (id, avatar, idCloudAvatar = null) => {
+const updateAvatar = async (id, avatar, idCloudAvatar = null, name) => {
   const result = await User.findOneAndUpdate(
     { _id: id },
-    { avatarURL: avatar, idCloudAvatar },
+    { avatarURL: avatar, idCloudAvatar, name },
     { returnDocument: 'after' },
   );
   return result;
