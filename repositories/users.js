@@ -36,6 +36,14 @@ const updateAvatar = async (id, avatar, idCloudAvatar = null, name) => {
   );
   return result;
 };
+const updateUserName = async (id, name) => {
+  const result = await User.findOneAndUpdate(
+    { _id: id },
+    { name },
+    { returnDocument: 'after' },
+  );
+  return result;
+};
 
 const createBalance = async (id, balance) => {
   const result = await User.findOneAndUpdate(
@@ -66,6 +74,7 @@ module.exports = {
   updateToken,
   updateGoogleUser,
   updateAvatar,
+  updateUserName,
   findByVerifyToken,
   updateTokenVerify,
   createBalance,

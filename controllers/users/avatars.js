@@ -12,18 +12,29 @@ const avatars = async (req, res, next) => {
     const id = req.user.id;
     const { name } = req.body;
     const uploads = new UploadService();
+    if (req.file === undefined) {
+      const updatedUser = await Users.updateUserName(id, name);
+      res.status(OK).json({
+        status: 'success',
+        code: OK,
+        data: { user: updatedUser },
+      });
+    }
     const { idCloudAvatar, avatarUrl } = await uploads.saveAvatar(
       req.file.path,
       req.user.idCloudAvatar,
     );
     try {
-      await fs.unlink(
-        req.file.path,
-      );
+      await fs.unlink(req.file.path);
     } catch (error) {
       console.log(error.message);
     }
-   const updatedUser = await Users.updateAvatar(id, avatarUrl, idCloudAvatar, name);
+    const updatedUser = await Users.updateAvatar(
+      id,
+      avatarUrl,
+      idCloudAvatar,
+      name,
+    );
     res.status(OK).json({
       status: 'success',
       code: OK,
