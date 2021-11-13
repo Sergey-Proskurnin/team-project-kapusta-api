@@ -24,6 +24,13 @@ const schemaPаramsrUserLogin = Joi.object({
   subscription: Joi.string().optional(),
 });
 
+const schemaPаramsrUserName = Joi.object({
+  name: Joi.string()
+    .pattern(/^[A-Za-zА-Яа-яЁёЄєЇї' '\-()0-9]{3,30}$/)
+    .required(),
+  avatar: Joi.string().optional(),
+});
+
 const schemaBalanceUser = Joi.object({
   balance: Joi.number(),
 });
@@ -53,8 +60,18 @@ module.exports = {
       message: 'Missing required name field',
     });
   },
+  validationPаramsUserName: (req, res, next) => {
+    if ('name' in req.body) {
+      return validate(schemaPаramsrUserName, req.body, next);
+    }
+    return res.status(BAD_REQUEST).json({
+      status: 'error',
+      code: BAD_REQUEST,
+      message: 'Missing required name field',
+    });
+  },
   validationBalanceUser: (req, res, next) => {
-     if (!isNaN(req.body.balance)) {
+    if (!isNaN(req.body.balance)) {
       return validate(schemaBalanceUser, req.body, next);
     }
     return res.status(BAD_REQUEST).json({
