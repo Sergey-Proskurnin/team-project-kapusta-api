@@ -9,11 +9,19 @@ const {
   validationPаramsUserLogin,
   validationVerificationEmail,
   validationBalanceUser,
+  validationPаramsUserName,
 } = require('./validation');
 
 const { users: ctrl } = require('../../../controllers');
 
-router.patch('/avatars', guard, upload.single('avatar'), ctrl.avatars);
+router.patch(
+  '/avatars',
+  guard,
+  upload.single('avatar'),
+  validationPаramsUserName,
+  ctrl.avatars,
+  
+);
 router.post('/signup', validationPаramsUserSignup, ctrl.register);
 router.post('/login', validationPаramsUserLogin, ctrl.login);
 router.post('/logout', guard, ctrl.logout);
