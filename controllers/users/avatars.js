@@ -17,7 +17,14 @@ const avatars = async (req, res, next) => {
       res.status(OK).json({
         status: 'success',
         code: OK,
-        data: { user: updatedUser },
+        data: {
+          user: {
+            name: updatedUser.name,
+            email: updatedUser.email,
+            avatarURL: updatedUser.avatarURL,
+            balance: updatedUser.balance,
+          },
+        },
       });
     }
     const { idCloudAvatar, avatarUrl } = await uploads.saveAvatar(
@@ -38,7 +45,14 @@ const avatars = async (req, res, next) => {
     res.status(OK).json({
       status: 'success',
       code: OK,
-      data: { user: updatedUser },
+      data: {
+        user: {
+          name: updatedUser.name,
+          email: updatedUser.email,
+          avatarURL: updatedUser.avatarURL,
+          balance: updatedUser.balance,
+        },
+      },
     });
   } catch (error) {
     next(error);

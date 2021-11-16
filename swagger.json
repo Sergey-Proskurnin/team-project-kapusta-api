@@ -333,7 +333,7 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/PatchUserAvatar"
+                "$ref": "#/components/schemas/AvatarRequest"
               }
             }
           }
@@ -804,14 +804,6 @@
                 "type": "string",
                 "description": "User's avatar"
               },
-              "token": {
-                "type": "string",
-                "description": "User's token"
-              },
-              "idCloudAvatar": {
-                "type": "string",
-                "description": "User's id cloud avatar"
-              },
               "balance": {
                 "type": "number",
                 "description": "User's balance"
@@ -976,28 +968,19 @@
           }
         }
       },
-      "PatchUserAvatar": {
-        "parameters": [
-          {
-            "name": "Avatar",
-            "in": "qwery",
-            "description": "Avatar",
-            "required": true,
-            "type": "string"
-          }
-        ],
+      "AvatarRequest": {
         "type": "object",
-
+        "required": ["name"],
         "properties": {
           "name": {
             "type": "string",
-            "description": "Avatar",
-            "example": "Avatar"
+            "description": "User's name",
+            "example": "User"
           },
-          "file": {
+          "avatar": {
             "type": "string",
             "format": "binary",
-            "description": "User's avatar"
+            "description": "Image avatar"
           }
         }
       },
@@ -1015,10 +998,28 @@
           "data": {
             "type": "object",
             "properties": {
-              "avatarURL": {
-                "type": "string",
-                "description": "Link to user's avatar",
-                "example": "https://s.gravatar.com/avatar/c61f12f616393799baecd77a09b6565c?s=250"
+              "user": {
+                "type": "object",
+                "description": "User's credential",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "User's name"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "User's email",
+                    "format": "email"
+                  },
+                  "avatarURL": {
+                    "type": "string",
+                    "description": "User's avatar"
+                  },
+                  "balance": {
+                    "type": "number",
+                    "description": "User's balance"
+                  }
+                }
               }
             }
           }
@@ -1064,21 +1065,9 @@
                     "type": "string",
                     "description": "User's avatar"
                   },
-                  "token": {
-                    "type": "string",
-                    "description": "User's token"
-                  },
-                  "idCloudAvatar": {
-                    "type": "string",
-                    "description": "User's id cloud avatar"
-                  },
                   "balance": {
                     "type": "number",
                     "description": "User's balance"
-                  },
-                  "refreshToken": {
-                    "type": "string",
-                    "description": "User's token"
                   }
                 }
               }
@@ -1086,7 +1075,6 @@
           }
         }
       },
-
       "CreateTransactionRequest": {
         "type": "object",
         "required": ["type", "date", "category", "subCategory", "sum"],
