@@ -12,18 +12,24 @@ const refresh = async (req, res, next) => {
     const newToken = createToken(id);
     const newRefreshToken = createRefreshToken(id);
 
-    const updatedUser = await User.findOneAndUpdate(
-      { _id: id },
-      { refreshToken: newRefreshToken, token: newToken },
-      { new: true },
-    );
+    const { name, email, avatarURL, token, refreshToken, balance } =
+      await User.findOneAndUpdate(
+        { _id: id },
+        { refreshToken: newRefreshToken, token: newToken },
+        { new: true },
+      );
     res.status(OK).json({
       status: 'success',
       code: OK,
       data: {
-        token: updatedUser.token,
-        refreshToken: updatedUser.refreshToken,
-        user: updatedUser,
+        token: token,
+        refreshToken: refreshToken,
+        user: {
+          name,
+          email,
+          avatarURL,
+          balance,
+        },
       },
     });
   } catch (error) {
